@@ -1,5 +1,8 @@
 class Config:
-    pass
+    #SQLAlchemy ur
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dynamo:den28041997is@localhost/patch_master'
+
+
     
 
 class ProdConfig(Config):

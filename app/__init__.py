@@ -1,9 +1,13 @@
 from flask import Flask
 from config import config_options
+from flask_sqlalchemy import SQLAlchemy
 
+db=SQLAlchemy()
 def create_app(config_name):
 
     app=Flask(__name__)
+    #initialize app extentions
+    db.init_app(app)
 
     #regster your blueprint
     from .main import main as main_blueprint
