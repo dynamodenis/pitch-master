@@ -8,7 +8,7 @@ class User(db.Model):
     email=db.Column(db.String(100))
     password_hash=db.Column(db.String)
     bio=db.Column(db.String)
-    pitch=db.Pitch(db.String)
+    pitch=db.Column(db.String)
     comments=db.relationship('Comment',backref='user',lazy='dynamic')
 
     def __repr__(self):
