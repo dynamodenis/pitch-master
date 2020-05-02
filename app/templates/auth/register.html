@@ -1,12 +1,16 @@
 {% import 'bootstrap/wtf.html' as wtf %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {{wtf.quick_form(register)}}
-</body>
-</html>
+
+{% extends 'base.html'%}
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 col-lg-3"></div>
+        <div class="col-md-8 col-sm-12 col-lg-6">
+            {{wtf.quick_form(register)}}
+        </div>
+        <div class="col-md-2 col-lg-3"></div>
+        
+    </div>
+
+</div>
+{% endblock%}}}
