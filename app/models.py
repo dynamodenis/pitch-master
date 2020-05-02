@@ -5,13 +5,13 @@ from flask_login import UserMixin
 from . import login_manager
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-    
+def load_user(id):
+    return User.query.get(int(id))
+
 class User(UserMixin,db.Model):
     __tablename__='users'
     id=db.Column(db.Integer,primary_key=True)
-    username=db.Column(db.String(50))
+    username=db.Column(db.String(50),unique=True,nullable=False)
     email=db.Column(db.String(100))
     password_hash=db.Column(db.String(50))
     bio=db.Column(db.String)
@@ -29,8 +29,7 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.password_hash,password)
     def __repr__(self):
-        return f'{self.username}'
-
+        return f"User('{self.username}','{self.email}')"
 
 
 class Comment(db.Model):
@@ -46,6 +45,6 @@ class Comment(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_comments(cls,pitch):
-        comment=Comment.query.filter_by(pitch=pitch).all()
+    def get_comments(cls,user_id):
+        comment=Comment.query.filter_by(pitch=user_id).all()
         return comment

@@ -26,10 +26,10 @@ def register():
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('auth.login'))
-        title="Create Account"
-    return render_template('auth/register.html',register=register,title=title)
+        # title="Create Account"
+    return render_template('auth/register.html',register=register,title='Create Account')
 
-@auth.logout('/logout')
+@auth.route('/logout')
 @login_required
 def logout():
     logout_user()
