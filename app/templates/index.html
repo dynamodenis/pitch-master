@@ -8,9 +8,9 @@
             <div class="card-body">
               <h4 class="card-title"> <span class="label label-default">Pitch Category: {{users.pitch_category}}</span> <span></span><span class="label label-success">Posted By: {{users.username}}</span></h4>
               <p class="card-text">{{users.pitch}}</p>
-              <p class="card-text"><small class="text-muted">Posted At: <span class="badge badge-secondary">{{users.posted}}</span></small></p>
+              <p class="card-text"><small class="text-muted">Posted At: <span class="badge badge-secondary">{{users.posted}}</span><span></span>Likes:<span class="badge badge-success">{{users.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{users.downvotes}}</span></small></p>
             </div>
-            <a href="{{url_for('main.comment')}}"><button class="btn btn-success">Comment</button></a>
+            <a href="{{url_for('main.comment')}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href="{{upvote}}"><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
         </div>
         <div class="row">
             <p>

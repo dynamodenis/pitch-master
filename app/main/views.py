@@ -8,9 +8,11 @@ from .. import db
 
 @main.route('/')
 def index():
+    upvote=Upvote()
+    downvote=Downvote()
     user=User.query.filter_by(username=current_user.username).first()
     comment_query=Comment.query.filter_by(pitch=user.pitch).all()
-    return render_template('index.html',users=current_user,comments=comment_query)
+    return render_template('index.html',users=current_user,comments=comment_query,upvote=upvote,downvote=downvote)
 
 @main.route('/user/<uname>',methods=['GET','POST'])
 @login_required
@@ -47,7 +49,7 @@ def upload_pitch():
 @login_required
 def comment():
     comments=CommentsForm()
-    user=User.query.filter_by(username=current_user).first()
+    user=User.query.filter_by(username=current_user.username).first()
     comment_query=Comment.query.filter_by(pitch=user.pitch).all()
     if comments.validate_on_submit():
         comment=Comment(comment=comments.comment.data,pitch=user.pitch,user=current_user)
@@ -58,3 +60,24 @@ def comment():
     
     
     return render_template('profile/comments.html' ,comment=comments)
+def Upvote():
+    counter=0
+    if current_user:
+        vote=counter+1
+        current_user.upvotes=vote
+        db.session.add(current_user)
+        db.session.commit()
+
+    return counter
+
+
+@login_required
+def Downvote():
+    counter=0
+    if current_user:
+        vote=counter+1
+        current_user.downvotes=vote
+        db.session.add(current_user)
+        db.session.commit()
+
+    return counter

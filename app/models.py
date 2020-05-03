@@ -19,6 +19,8 @@ class User(UserMixin,db.Model):
     pitch=db.Column(db.String())
     pitch_category=db.Column(db.String(20))
     posted=db.Column(db.DateTime,default=datetime.utcnow)
+    upvotes=db.Column(db.Integer)
+    downvotes=db.Column(db.Integer)
     comments=db.relationship('Comment',backref='user',lazy='dynamic')
 
     @property
