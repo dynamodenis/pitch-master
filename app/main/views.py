@@ -2,7 +2,7 @@ from flask import render_template,redirect,url_for,abort,flash
 from . import main
 from flask_login import login_required,current_user
 from ..models import User,Comment
-from .forms import UploadPitch,CommentsForm
+from .forms import UploadPitch,CommentsForm,UpdateBio
 from .. import db
 
 
@@ -13,12 +13,13 @@ def index():
 @main.route('/user/<uname>')
 @login_required
 def profile(uname):
+    bio=UpdateBio()
     user=User.query.filter_by(username=uname).first()
     image=url_for('static',filename=f'profile/{{current_user.profile_pic_path}}')
     print(image)
     if user is None:
         abort(404)
-    return render_template('profile/profile.html',user=user,image=image)
+    return render_template('profile/profile.html',user=user,image=image,bio=bio)
 
 @main.route('/upload/pitch',methods=['GET','POST'])
 @login_required
