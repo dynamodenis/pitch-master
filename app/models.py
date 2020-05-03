@@ -15,8 +15,9 @@ class User(UserMixin,db.Model):
     email=db.Column(db.String(100))
     password_hash=db.Column(db.String(50))
     bio=db.Column(db.String())
-    profile_pic_path = db.Column(db.String())
+    profile_pic_path = db.Column(db.String(),default='default.png')
     pitch=db.Column(db.String())
+    pitch_category=db.Column(db.String(20))
     comments=db.relationship('Comment',backref='user',lazy='dynamic')
 
     @property
