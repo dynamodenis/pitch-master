@@ -8,13 +8,20 @@ from .. import db
 
 @main.route('/')
 def index():
-    return render_template('index.html',users=current_user)
+    user=User.query.filter_by(username=current_user.username).first()
+    comment_query=Comment.query.filter_by(pitch=user.pitch).all()
+    return render_template('index.html',users=current_user,comments=comment_query)
 
-@main.route('/user/<uname>')
+@main.route('/user/<uname>',methods=['GET','POST'])
 @login_required
 def profile(uname):
-    bio=UpdateBio()
     user=User.query.filter_by(username=uname).first()
+    bio=UpdateBio()
+    if bio.validate_on_submit():
+        user.bio=bio.bio.data
+        db.session.add(user)
+        db.session.commit()
+
     image=url_for('static',filename=f'profile/{{current_user.profile_pic_path}}')
     print(image)
     if user is None:
@@ -40,11 +47,14 @@ def upload_pitch():
 @login_required
 def comment():
     comments=CommentsForm()
+    user=User.query.filter_by(username=current_user).first()
+    comment_query=Comment.query.filter_by(pitch=user.pitch).all()
     if comments.validate_on_submit():
-        comment=Comment(comment=comments.comment.form,user=current_user)
+        comment=Comment(comment=comments.comment.data,pitch=user.pitch,user=current_user)
         db.session.add(comment)
         db.session.commit()
         flash('Comment posted!')
-        return url_for('main.index')
+        return redirect(url_for('main.index',comments=comment_query))
+    
     
     return render_template('profile/comments.html' ,comment=comments)

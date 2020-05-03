@@ -15,7 +15,7 @@ class User(UserMixin,db.Model):
     email=db.Column(db.String(100))
     password_hash=db.Column(db.String(50))
     bio=db.Column(db.String())
-    profile_pic_path = db.Column(db.String(),default='default.png')
+    profile_pic_path = db.Column(db.String(),default='default.jpeg')
     pitch=db.Column(db.String())
     pitch_category=db.Column(db.String(20))
     posted=db.Column(db.DateTime,default=datetime.utcnow)
