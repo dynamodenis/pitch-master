@@ -7,3 +7,6 @@ class UploadPitch(FlaskForm):
     pitch=TextAreaField('Write Pitch:',validators=[DataRequired()])
     submit=SubmitField('Post Pitch')
   
+class CommentsForm(FlaskForm):
+    comment=TextAreaField('Type comment:', validators=[DataRequired()])
+    submit=SubmitField('Post Comment')

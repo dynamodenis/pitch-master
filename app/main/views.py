@@ -1,8 +1,8 @@
 from flask import render_template,redirect,url_for,abort,flash
 from . import main
 from flask_login import login_required,current_user
-from ..models import User
-from .forms import UploadPitch
+from ..models import User,Comment
+from .forms import UploadPitch,CommentsForm
 from .. import db
 
 
@@ -34,3 +34,16 @@ def upload_pitch():
         flash('Pitch Uploaded')
         return redirect(url_for('main.index',users=current_user))
     return render_template('profile/update_pitch.html',pitch=pitch,title='Create Pitch')
+
+@main.route('/pitch/comment',methods=['GET','POST'])
+@login_required
+def comment():
+    comments=CommentsForm()
+    if comments.validate_on_submit():
+        comment=Comment(comment=comments.comment.form,user=current_user)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment posted!')
+        return url_for('main.index')
+    
+    return render_template('profile/comments.html' ,comment=comments)
