@@ -9,8 +9,8 @@ class TestComment(unittest.TestCase):
         self.comment=Comment(comment='i like it',pitch='live life alone',posted='12/12/2020',user=self.user)
 
     def tearDown(self):
-        User.query.delete()
-        Comment.query.delete()
+        self.comment.query.delete()
+        self.user.query.delete()
 
     def test_comment_instance(self):
         self.assertEquals(self.comment.comment,'i like it')

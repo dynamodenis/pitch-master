@@ -18,6 +18,7 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String(),default='default.png')
     pitch=db.Column(db.String())
     pitch_category=db.Column(db.String(20))
+    posted=db.Column(db.DateTime,default=datetime.utcnow)
     comments=db.relationship('Comment',backref='user',lazy='dynamic')
 
     @property
@@ -31,7 +32,7 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.password_hash,password)
     def __repr__(self):
-        return f"User('{self.username}','{self.email}')"
+        return f"User('{self.username}','{self.email}','{self.pitch}')"
 
 
 class Comment(db.Model):
@@ -42,11 +43,13 @@ class Comment(db.Model):
     posted=db.Column(db.DateTime,default=datetime.utcnow)
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
 
+    def __repr__(self):
+        return f"Comment ('{self.comment}','{self.user}')"
     def save_comment(self):
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def get_comments(cls,user_id):
-        comment=Comment.query.filter_by(pitch=user_id).all()
+    def get_comments(cls,pitch):
+        comment=Comment.query.filter_by(pitch=pitch).all()
         return comment

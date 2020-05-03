@@ -8,7 +8,7 @@ from .. import db
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',users=current_user)
 
 @main.route('/user/<uname>')
 @login_required
@@ -32,5 +32,5 @@ def upload_pitch():
         db.session.add(current_user)
         db.session.commit()
         flash('Pitch Uploaded')
-        return redirect(url_for('main.index',user=current_user))
+        return redirect(url_for('main.index',users=current_user))
     return render_template('profile/update_pitch.html',pitch=pitch,title='Create Pitch')
