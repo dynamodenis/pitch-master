@@ -12,7 +12,8 @@ def index():
     downvote=Downvote()
     user=User.query.filter_by(username=current_user.username).first()
     comment_query=Comment.query.filter_by(pitch=user.pitch).all()
-    return render_template('index.html',users=current_user,comments=comment_query,upvote=upvote,downvote=downvote)
+    all_pitch=User.query.all()
+    return render_template('index.html',users=all_pitch,comments=comment_query,upvote=upvote,downvote=downvote)
 
 @main.route('/user/<uname>',methods=['GET','POST'])
 @login_required

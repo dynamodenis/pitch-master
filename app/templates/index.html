@@ -1,14 +1,14 @@
 {% extends 'base.html'%}
 {% block content%}
-<h1></h1>
+{% for user in users%}
 <div class="row">
     <div class="col-md-2 col-lg-3 col-xs-1"></div>
     <div class="col-md-8 col-lg-6 col-xs-10 jumbotron">
         <div class="card mb-6 bg-dark text-white">
             <div class="card-body">
-              <h4 class="card-title"> <span class="label label-default">Pitch Category: {{users.pitch_category}}</span> <span></span><span class="label label-success">Posted By: {{users.username}}</span></h4>
-              <p class="card-text">{{users.pitch}}</p>
-              <p class="card-text"><small class="text-muted">Posted At: <span class="badge badge-secondary">{{users.posted}}</span><span></span>Likes:<span class="badge badge-success">{{users.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{users.downvotes}}</span></small></p>
+              <h4 class="card-title"> <span class="label label-default">Pitch Category: {{user.pitch_category}}</span> <span></span><span class="label label-success">Posted By: {{user.username}}</span></h4>
+              <p class="card-text">{{user.pitch}}</p>
+              <p class="card-text"><small class="text-muted">Posted At: <span class="badge badge-secondary">{{user.posted}}</span><span></span>Likes:<span class="badge badge-success">{{user.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{user.downvotes}}</span></small></p>
             </div>
             <a href="{{url_for('main.comment')}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href="{{upvote}}"><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
         </div>
@@ -39,5 +39,5 @@
     </div>
     <div class="col-md-2 col-lg-3 col-xs-1"></div>
 </div>
-
+{%endfor%}
 {% endblock %}
