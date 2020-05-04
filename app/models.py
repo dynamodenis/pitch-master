@@ -16,12 +16,13 @@ class User(UserMixin,db.Model):
     password_hash=db.Column(db.String(50))
     bio=db.Column(db.String())
     profile_pic_path = db.Column(db.String(),default='default.jpeg')
-    pitch=db.Column(db.String())
-    pitch_category=db.Column(db.String(20))
-    posted=db.Column(db.DateTime,default=datetime.utcnow)
-    upvotes=db.Column(db.Integer)
-    downvotes=db.Column(db.Integer)
-    comments=db.relationship('Comment',backref='user',lazy='dynamic')
+    # pitch=db.Column(db.String())
+    # pitch_category=db.Column(db.String(20))
+    # posted=db.Column(db.DateTime,default=datetime.utcnow)
+    # upvotes=db.Column(db.Integer)
+    # downvotes=db.Column(db.Integer)
+    # comments=db.relationship('Comment',backref='user',lazy='dynamic')
+    pitch=db.relationship('Pitch',backref='user',lazy='dynamic')
 
     @property
     def password(self):
@@ -41,9 +42,10 @@ class Comment(db.Model):
     __tablename__='comments'
     id=db.Column(db.Integer,primary_key=True)
     comment=db.Column(db.String)
-    pitch=db.Column(db.String)
+    # pitch=db.Column(db.String)
     posted=db.Column(db.DateTime,default=datetime.utcnow)
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
+    # user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
+    pitch_id=db.Column(db.Integer,db.ForeignKey('pitch.id'))
 
     def __repr__(self):
         return f"Comment ('{self.comment}','{self.user}')"
@@ -55,3 +57,14 @@ class Comment(db.Model):
     def get_comments(cls,pitch):
         comment=Comment.query.filter_by(pitch=pitch).all()
         return comment
+
+class Pitch(db.Model):
+    __tablename__='pitch'
+    id=db.Column(db.Integer,primary_key=True)
+    pitch=db.Column(db.String())
+    pitch_category=db.Column(db.String(20))
+    posted=db.Column(db.DateTime,default=datetime.utcnow)
+    upvotes=db.Column(db.Integer)
+    downvotes=db.Column(db.Integer)
+    comment=db.relationship('Pitch',backref='pitch',lazy='dynamic')
+    user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
