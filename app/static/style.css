@@ -1,3 +1,9 @@
 body{
     background-color: antiquewhite;
 }
+.header{
+    font-weight: bolder;
+}
+.comment-body{
+    background-color: aqua;
+}

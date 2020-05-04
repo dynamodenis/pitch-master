@@ -62,10 +62,10 @@ def comment(pname):
         db.session.add(comment)
         db.session.commit()
         flash('Comment posted!')
-        return redirect(url_for('main.index',comments=comment_query))
+        return redirect(url_for('main.comment',pname=pname))
     
-    
-    return render_template('profile/comments.html' ,comment=comments)
+    pitches=Pitch.query.all()
+    return render_template('pitch.html' ,comment=comments,pitches=pitches,comments=comment_query)
 # def Upvote():
 #     counter=0
 #     if current_user:
