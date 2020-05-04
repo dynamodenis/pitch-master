@@ -20,3 +20,14 @@
     </div>
 </div>
 {% endblock%}
+<div class="row">
+    <div class="col-md-10 col-sm-12 col-lg-6">
+        <ul class="list-group">
+            {% for pitch in pitches%}
+                <li class="list-group-item">
+                    {{pitch.pitch}}
+                </li>
+            {% endfor%}
+        </ul>
+    </div>
+</div>
