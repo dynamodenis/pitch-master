@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
 {% endblock%}
 {% block content%}
-{% for pitch in pitches%}
 <div class="row">
     <div class="col-md-2 col-lg-3 col-xs-1"></div>
     <div class="col-md-8 col-lg-6 col-xs-10 jumbotron">
@@ -54,6 +53,4 @@
     </div>
     <div class="col-md-2 col-lg-3 col-xs-1"></div>
 </div>
-
-{%endfor%}
 {% endblock %}

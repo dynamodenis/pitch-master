@@ -7,3 +7,11 @@ body{
 .comment-body{
     background-color: aqua;
 }
+.list-index{
+    padding-left: 20px;
+    text-decoration: none;
+    
+}
+.list-index li{
+    text-decoration: none;
+}
