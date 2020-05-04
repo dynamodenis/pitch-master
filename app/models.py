@@ -54,8 +54,8 @@ class Comment(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_comments(cls,pitch):
-        comment=Comment.query.filter_by(pitch=pitch).all()
+    def get_comments(cls,pitch_id):
+        comment=Comment.query.filter_by(pitch_id=pitch_id).all()
         return comment
 
 class Pitch(db.Model):
@@ -66,5 +66,5 @@ class Pitch(db.Model):
     posted=db.Column(db.DateTime,default=datetime.utcnow)
     upvotes=db.Column(db.Integer)
     downvotes=db.Column(db.Integer)
-    comment=db.relationship('Pitch',backref='pitch',lazy='dynamic')
+    comment=db.relationship('Comment',backref='pitch',lazy='dynamic')
     user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
