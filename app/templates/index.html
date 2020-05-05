@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-md-2 col-lg-2 col-xs-1"></div>
         <div class="col-md-8 col-lg-8 col-xs-10 ">
-            <ul class="list-index">
+            <ul class="list-index ">
                 {% for pitch in pitches%}
-                <li class="jumbotron ml-2">                 
+                <li class="jumbotron " style="padding-left:40px ; list-style-type: none;">                 
                     <div class="card mb-6 bg-dark text-white">
                         <div class="card-body">
                             <h4 class="card-title"> <span class="label label-default">Pitch Category: {{pitch.pitch_category}}</span> <span></span><span class="label label-success">Posted By: {{pitch.user.username}}</span></h4>
