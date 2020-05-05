@@ -32,8 +32,8 @@ def Downvote(pitch):
 def index():
     # upvote=Upvote()
     # downvote=Downvote()
-    user=User.query.filter_by(username=current_user.username).first()
-    pitch=Pitch.query.filter_by(user_id=user.id).first()
+    # user=User.query.filter_by(username=current_user.username).first()
+    # pitch=Pitch.query.filter_by(user_id=user.id).first()
     all_pitch=Pitch.query.all()
     return render_template('index.html',pitches=all_pitch,title='Pitch | Master')
 
@@ -50,7 +50,7 @@ def profile(uname):
         db.session.add(user)
         db.session.commit()
 
-    image=url_for('static',filename=f'profile/{{current_user.profile_pic_path}}')
+    image=url_for('static',filename='profile/{{user.profile_pic_path}}')
     print(image)
     if user is None:
         abort(404)

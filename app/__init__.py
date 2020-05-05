@@ -3,8 +3,11 @@ from config import config_options
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
+from flask_mail import Mail
 
 
+#create insatnce of Mail
+mail=Mail()
 #create instance of bootstrap
 bootstrap=Bootstrap()
 #create database instance
@@ -21,6 +24,7 @@ def create_app(config_name):
     db.init_app(app)
     bootstrap.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
     #regster your blueprint
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

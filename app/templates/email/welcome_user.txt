@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to Pitch Master
+Pitch Master is an interactive platforms where careers are build by guiding and facilitating all neccecities needed to build a person's confidence.

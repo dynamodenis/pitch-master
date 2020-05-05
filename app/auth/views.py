@@ -4,11 +4,12 @@ from .forms import LoginForm,RegistrationForm
 from .. import db
 from ..models import User
 from flask_login import login_user,logout_user,login_required
+from ..email import mail_message
 
 @auth.route('/login',methods=['GET','POST'])
 def login():
     form=LoginForm()
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user,form.remember.data)
@@ -25,6 +26,8 @@ def register():
         user=User(username=register.username.data,email=register.email.data,password=register.password.data)
         db.session.add(user)
         db.session.commit()
+
+        mail_message('Welcome to Pitch Master','email/welcome_user',user.email,user=user)
         flash('Account successfully created!')
         return redirect(url_for('auth.login'))
         # title="Create Account"
