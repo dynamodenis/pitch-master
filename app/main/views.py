@@ -86,7 +86,7 @@ def comment(pname):
         flash('Comment posted!')
         return redirect(url_for('main.comment',pname=pname))
     
-    return render_template('pitch.html' ,comment=comments,pitch=pitch,comments=comment_query)
+    return render_template('pitch.html' ,comment=comments,pitch=pitch,comments=comment_query,title='Pitch Comment')
 
 
 @main.route('/<int:pname>/update',methods=['GET','POST'])

@@ -2,6 +2,12 @@ import os
 class Config:
     #SQLAlchemy ur
     SECRET_KEY=os.environ.get('SECRET_KEY')
+    #emailconfiguration
+    MAIL_SERVER='stmp.googlemail.com'
+    MAIL_PORT=587
+    MAIL_USE_TLS=True
+    MAIL_USERNAME=os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
 
 
     
