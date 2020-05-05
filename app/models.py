@@ -16,11 +16,6 @@ class User(UserMixin,db.Model):
     password_hash=db.Column(db.String(50))
     bio=db.Column(db.String())
     profile_pic_path = db.Column(db.String(),default='profile.png')
-    # pitch=db.Column(db.String())
-    # pitch_category=db.Column(db.String(20))
-    # posted=db.Column(db.DateTime,default=datetime.utcnow)
-    # upvotes=db.Column(db.Integer)
-    # downvotes=db.Column(db.Integer)
     comments=db.relationship('Comment',backref='user',lazy='dynamic')
     pitch=db.relationship('Pitch',backref='user',lazy='dynamic')
 
