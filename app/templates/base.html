@@ -10,14 +10,13 @@
     <title>Pitch | Master</title>
     {% endif %}
 </head>
-<body class="container">
+<body class="container-fluid">
     {% block styles%}
         {{super()}}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='profile/index.css')}}">
     {% endblock%}
     {%block navbar%}
-    <div class="navbar navbar-inverse" role="navigation">
+    <div class="navbar navbar-inverse fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

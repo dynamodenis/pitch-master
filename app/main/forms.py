@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField,TextAreaField,SelectField
 from wtforms.validators import DataRequired,Length
-
+from flask_wtf.file import FileField,FileAllowed
 class UploadPitch(FlaskForm):
     # category=StringField('Pitch Category:', validators=[DataRequired(),Length(max=20)])
     category=SelectField('Select Category',validators=[DataRequired()],choices=[('Interview Pitch','Interview Pitch'),
@@ -19,5 +19,6 @@ class CommentsForm(FlaskForm):
     submit=SubmitField('Post Comment')
 
 class UpdateBio(FlaskForm):
-    bio=StringField('Create a Bio:',validators=[DataRequired()])
+    bio=StringField('Create a Bio:')
+    picture=FileField('Choose Profile Picture', validators=[FileAllowed(['jpeg','png','jpg'])])
     submit=SubmitField('Update Bio')

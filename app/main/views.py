@@ -1,9 +1,13 @@
+import os
+import secrets
+from PIL import Image
 from flask import render_template,redirect,url_for,abort,flash,request
 from . import main
 from flask_login import login_required,current_user
 from ..models import User,Comment,Pitch
 from .forms import UploadPitch,CommentsForm,UpdateBio
 from .. import db
+from manage import app
 
 def Upvote(pitch):
     counter=0
@@ -37,20 +41,37 @@ def index():
     all_pitch=Pitch.query.all()
     return render_template('index.html',pitches=all_pitch,title='Pitch | Master')
 
+
+def save_picture(form_data):
+    random_url=secrets.token_hex(6)
+    _,file_extention=os.path.splitext(form_data.filename)
+    file_url=random_url+file_extention
+    picture_loc=os.path.join(app.root_path+"/static/profile/"+file_url)
+
+    sized_image=(400,600)
+    cut=Image.open(form_data)
+    cut.thumbnail(sized_image)
+    cut.save(picture_loc)
+    return file_url
+
+
+
 @main.route('/user/<uname>',methods=['GET','POST'])
 @login_required
 def profile(uname):
-    
+    image=url_for('static',filename='profile/'+ current_user.profile_pic_path)
     user=User.query.filter_by(username=uname).first()
     pitch=Pitch.query.filter_by(user_id=current_user.id).all()
     # pitch=Pitch.query.get(user_id=user.id).all()
     bio=UpdateBio()
     if bio.validate_on_submit():
+        if bio.picture.data:
+            pic_file=save_picture(bio.picture.data)
+            user.profile_pic_path=pic_file
         user.bio=bio.bio.data
         db.session.add(user)
         db.session.commit()
 
-    image=url_for('static',filename='profile/{{user.profile_pic_path}}')
     print(image)
     if user is None:
         abort(404)
