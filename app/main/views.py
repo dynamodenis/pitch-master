@@ -1,3 +1,4 @@
+import functools
 import os
 import secrets
 from PIL import Image
@@ -9,27 +10,29 @@ from .forms import UploadPitch,CommentsForm,UpdateBio
 from .. import db
 from manage import app
 
+vote=0
 def Upvote(pitch):
-    counter=0
     if pitch:
-        vote=counter+1
-        uvotes=Pitch(upvotes=vote)
-        db.session.add(uvotes)
-        db.session.commit()
+        vote=0
+        vote=pitch+1
+        # total_votes=functools.reduce(lambda a,b:a+b, total)
+        # uvotes=Pitch(pitch=pitch+vote)
+        # db.session.add(uvotes)
+        # db.session.commit()
 
-    return uvotes
+    return vote
 
 
 
 def Downvote(pitch):
-    counter=0
     if pitch:
-        vote=counter+1
-        dvotes=Pitch(downvotes=vote)
-        db.session.add(dvotes)
-        db.session.commit()
+        vote=0
+        vote=pitch+1
+        # dvotes=Pitch(pitch=vote)
+        # db.session.add(dvotes)
+        # db.session.commit()
 
-    return dvotes
+    return vote
 
 
 @main.route('/')
@@ -38,7 +41,8 @@ def index():
     # downvote=Downvote()
     # user=User.query.filter_by(username=current_user.username).first()
     # pitch=Pitch.query.filter_by(user_id=user.id).first()
-    all_pitch=Pitch.query.all()
+    page=request.args.get('page',1,type=int)
+    all_pitch=Pitch.query.order_by(Pitch.posted.desc()).paginate(page=page,per_page=10)
     return render_template('index.html',pitches=all_pitch,title='Pitch | Master')
 
 
@@ -98,9 +102,10 @@ def upload_pitch():
 def comment(pname):
     comments=CommentsForm()
     image=url_for('static',filename='profile/'+ current_user.profile_pic_path)
-    # user=User.query.filter_by(username=current_user.username).first()
     pitch=Pitch.query.filter_by(id=pname).first()
     comment_query=Comment.query.filter_by(pitch_id=pitch.id).all()
+    # upvote=Upvote(pitch.upvotes)
+    # downvote=Downvote(pitch.downvotes)
     if comments.validate_on_submit():
         comment=Comment(comment=comments.comment.data,pitch_id=pitch.id,user_id=current_user.id)
         db.session.add(comment)
@@ -141,3 +146,26 @@ def delete_pitch(pitch_id):
     db.session.commit()
     flash('Pitch Delete!')
     return redirect(url_for('main.profile',uname=pitch.user.username))
+
+
+@main.route('/<int:like>',methods=['GET','POST'])
+def upvote(like):
+    pitch=Pitch.query.filter_by(id=like).first()
+    page=request.args.get('page',1,type=int)
+    all_pitch=Pitch.query.order_by(Pitch.posted.desc()).paginate(page=page,per_page=10)
+    if pitch.upvotes:
+        upvote=pitch.upvotes+1
+        db.session.add(upvote)
+        db.session.commit()
+        return redirect(url_for('main.index'))
+    return render_template('index.html',pitches=all_pitch)
+
+@main.route('/profile/user/<string:username>')
+def posted(username):
+    user=User.query.filter_by(username=username).first_or_404()
+    page=request.args.get('page',1,type=int)
+    all_pitch=Pitch.query.filter_by(user=user)\
+            .order_by(Pitch.posted.desc())\
+            .paginate(page=page,per_page=10)
+
+    return render_template('posted_by.html',pitches=all_pitch,title=user.username,user=user)

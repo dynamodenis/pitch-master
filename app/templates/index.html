@@ -9,20 +9,33 @@
         <div class="col-md-2 col-lg-2 col-xs-1"></div>
         <div class="col-md-8 col-lg-8 col-xs-10 ">
             <ul class="list-index ">
-                {% for pitch in pitches%}
+                {% for pitch in pitches.items%}
                 <li class="jumbotron " style="padding-left:40px ; list-style-type: none;">                 
                     <div class="card mb-6 bg-dark text-white">
                         <div class="card-body">
-                            <h4 class="card-title"> <span class="label label-default">Pitch Category: {{pitch.pitch_category}}</span> <span></span><span class="label label-success">Posted By: {{pitch.user.username}}</span></h4>
+                            <h4 class="card-title"> <span class="label label-default">Pitch Category: {{pitch.pitch_category}}</span> <span></span><span class="label label-success"><a href="{{url_for('main.posted',username=pitch.user.username)}}">Posted By: {{pitch.user.username}}</a></span></h4>
                             <p class="card-text">{{pitch.pitch}}</p>
-                            <p class="card-text"><small class="text-muted">Posted At: <span class="badge badge-secondary">{{pitch.posted.strftime('%Y-%m-%d')}}</span><span></span>Likes:<span class="badge badge-success">{{pitch.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{pitch.downvotes}}</span></small></p>
+                            <p class="card-text"><small class="text-muted">Posted On: <span class="badge badge-secondary">{{pitch.posted.strftime('%Y-%m-%d')}}</span><span></span>Posted At: <span>{{pitch.posted.timeago}}</span><span></span>Likes:<span class="badge badge-success">{{pitch.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{pitch.downvotes}}</span></small></p>
                         </div>
-                        <a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href="{{upvote}}"><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
+                        <a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href="{{url_for('main.upvote',like=pitch.id)}}"><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
                     </div>              
                 </li>
                 <br>
                 {%endfor%}
             </ul>
+            <div class="text-center">
+                {% for page in pitches.iter_pages(left_edge=2,right_edge=2,left_current=2,right_current=2)%}
+                    {% if page %}
+                        {% if pitches.page==page%}
+                        <a class="btn btn-primary " href="{{url_for('main.index',page=page)}}">{{ page }}</a>
+                        {% else %}
+                        <a class="btn btn-outline-secondary" href="{{url_for('main.index',page=page)}}">{{ page }}</a>
+                        {% endif%}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor%}
+            </div>
         </div>
         <div class="col-md-2 col-lg-2 col-xs-1"></div>
     </div>
