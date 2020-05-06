@@ -1,10 +1,12 @@
 from flask import render_template,redirect,url_for,request,flash
 from . import auth
 from .forms import LoginForm,RegistrationForm
-from .. import db
+from .. import db,mail
 from ..models import User
 from flask_login import login_user,logout_user,login_required
 from ..email import mail_message
+from flask_mail import Message
+
 
 @auth.route('/login',methods=['GET','POST'])
 def login():
@@ -27,7 +29,11 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        mail_message('Welcome to Pitch Master','email/welcome_user',user.email,user=user)
+        msg=Message('Welcome To Pitch Master', sender='dmbugua66@gmail.com',recipients=[user.email])
+        msg.body='''Hello {{user.username}}
+                Welcome to Pitch Master
+                Pitch Master is an interactive platforms where careers are build by guiding and facilitating all neccecities needed to build a person's confidence.'''
+        mail.send(msg)        
         flash('Account successfully created!')
         return redirect(url_for('auth.login'))
         # title="Create Account"

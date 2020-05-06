@@ -97,6 +97,7 @@ def upload_pitch():
 @login_required
 def comment(pname):
     comments=CommentsForm()
+    image=url_for('static',filename='profile/'+ current_user.profile_pic_path)
     # user=User.query.filter_by(username=current_user.username).first()
     pitch=Pitch.query.filter_by(id=pname).first()
     comment_query=Comment.query.filter_by(pitch_id=pitch.id).all()
@@ -107,7 +108,7 @@ def comment(pname):
         flash('Comment posted!')
         return redirect(url_for('main.comment',pname=pname))
     
-    return render_template('pitch.html' ,comment=comments,pitch=pitch,comments=comment_query,title='Pitch Comment')
+    return render_template('pitch.html' ,comment=comments,pitch=pitch,comments=comment_query,title='Pitch Comment',image=image)
 
 
 @main.route('/<int:pname>/update',methods=['GET','POST'])

@@ -34,7 +34,7 @@
                     <li style="list-style-type: none;">
                         <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
                             {% if comment.user.profile_pic_path %}
-                            <img src="{{image}}" class="card-img rounded-circle" alt="...">
+                            <img src="{{image}}" class="img-circle img-responsive" style="width: 30px; height: 30px;">
                             {%else%}
                             <img src="{{url_for('static', filename='profile/profile.png')}}" class="card-img rounded-circle" alt="" style="width: 25px; height: 25px;">
                             {% endif %}
