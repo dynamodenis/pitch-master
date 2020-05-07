@@ -4,7 +4,7 @@ from .forms import LoginForm,RegistrationForm
 from .. import db,mail
 from ..models import User
 from flask_login import login_user,logout_user,login_required
-from ..email import mail_message
+from ..send_mail import mail_message
 from flask_mail import Message
 
 
@@ -29,11 +29,11 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        msg=Message('Welcome To Pitch Master', sender='dmbugua66@gmail.com',recipients=[user.email])
-        msg.body='''Hello {{user.username}}
-                Welcome to Pitch Master
-                Pitch Master is an interactive platforms where careers are build by guiding and facilitating all neccecities needed to build a person's confidence.'''
-        mail.send(msg)        
+        # msg=Message('Welcome To Pitch Master', sender='dmbugua66@gmail.com',recipients=['dmbugua@gmail.com'])
+        # msg.body='''Hello {{user.username}}
+        #         Welcome to Pitch Master
+        #         Pitch Master is an interactive platforms where careers are build by guiding and facilitating all neccecities needed to build a person's confidence.'''
+        # mail.send(msg)        
         flash('Account successfully created!')
         return redirect(url_for('auth.login'))
         # title="Create Account"

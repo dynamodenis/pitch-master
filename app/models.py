@@ -3,6 +3,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+import pytz
+
 
 @login_manager.user_loader
 def load_user(id):
@@ -53,12 +55,14 @@ class Comment(db.Model):
         comment=Comment.query.filter_by(pitch_id=pitch_id).all()
         return comment
 
+date_time=datetime.utcnow().replace(tzinfo=pytz.UTC)
+time_zone=date_time.astimezone(pytz.timezone('Africa/Nairobi'))
 class Pitch(db.Model):
     __tablename__='pitch'
     id=db.Column(db.Integer,primary_key=True)
     pitch=db.Column(db.String())
     pitch_category=db.Column(db.String(20))
-    posted=db.Column(db.DateTime,default=datetime.utcnow)
+    posted=db.Column(db.DateTime,default=time_zone)
     upvotes=db.Column(db.Integer)
     downvotes=db.Column(db.Integer)
     comment=db.relationship('Comment',backref='pitch',lazy='dynamic')

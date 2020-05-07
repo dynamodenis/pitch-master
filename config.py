@@ -1,16 +1,15 @@
 import os
+from flask_mail import Mail
 class Config:
     #SQLAlchemy ur
     SECRET_KEY=os.environ.get('SECRET_KEY')
     #emailconfiguration
-    MAIL_SERVER='stmp.gmail.com'
+    MAIL_SERVER='smtp.gmail.com'
     MAIL_PORT=587
-    MAIL_USE_TLS=False
+    MAIL_USE_TLS=True
     MAIL_USE_SSL=True
     MAIL_USERNAME=os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
-
-
     
 
 class ProdConfig(Config):

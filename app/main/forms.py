@@ -20,5 +20,6 @@ class CommentsForm(FlaskForm):
 
 class UpdateBio(FlaskForm):
     bio=StringField('Create a Bio:')
-    picture=FileField('Choose Profile Picture', validators=[FileAllowed(['jpeg','png','jpg'])])
+    picture=FileField('Choose Profile Picture', validators=[FileAllowed(['jpeg','png','jpg'])])   
     submit=SubmitField('Update Bio')
+

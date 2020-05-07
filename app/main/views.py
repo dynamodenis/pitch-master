@@ -60,7 +60,7 @@ def save_picture(form_data):
 
 
 
-@main.route('/user/<uname>',methods=['GET','POST'])
+@main.route('/user/<string:uname>',methods=['GET','POST'])
 @login_required
 def profile(uname):
     image=url_for('static',filename='profile/'+ current_user.profile_pic_path)
@@ -72,9 +72,11 @@ def profile(uname):
         if bio.picture.data:
             pic_file=save_picture(bio.picture.data)
             user.profile_pic_path=pic_file
+            db.session.commit()
         user.bio=bio.bio.data
         db.session.add(user)
         db.session.commit()
+        
 
     print(image)
     if user is None:
@@ -88,8 +90,6 @@ def upload_pitch():
     if current_user is None:
         abort(404)
     if pitch.validate_on_submit():
-        # current_user.pitch_category=pitch.category.data
-        # current_user.pitch=pitch.pitch.data
         pitch=Pitch(pitch_category=pitch.category.data,pitch=pitch.pitch.data,user=current_user)
         db.session.add(pitch)
         db.session.commit()
@@ -110,7 +110,6 @@ def comment(pname):
         comment=Comment(comment=comments.comment.data,pitch_id=pitch.id,user_id=current_user.id)
         db.session.add(comment)
         db.session.commit()
-        flash('Comment posted!')
         return redirect(url_for('main.comment',pname=pname))
     
     return render_template('pitch.html' ,comment=comments,pitch=pitch,comments=comment_query,title='Pitch Comment',image=image)
@@ -163,9 +162,10 @@ def upvote(like):
 @main.route('/profile/user/<string:username>')
 def posted(username):
     user=User.query.filter_by(username=username).first_or_404()
+    image=url_for('static',filename='profile/'+ user.profile_pic_path)
     page=request.args.get('page',1,type=int)
     all_pitch=Pitch.query.filter_by(user=user)\
             .order_by(Pitch.posted.desc())\
             .paginate(page=page,per_page=10)
 
-    return render_template('posted_by.html',pitches=all_pitch,title=user.username,user=user)
+    return render_template('posted_by.html',pitches=all_pitch,title=user.username,user=user,image=image)
