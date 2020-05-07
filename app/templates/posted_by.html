@@ -45,7 +45,7 @@
                         <p class="card-text">{{pitch.pitch}}</p>
                         <p class="card-text"><small class="text-muted">Posted On: <span class="badge badge-secondary">{{pitch.posted.strftime('%Y-%m-%d')}}</span><span></span>Likes:<span class="badge badge-success">{{pitch.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{pitch.downvotes}}</span></small></p>
                     </div>
-                    <a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href="{{url_for('main.upvote',like=pitch.id)}}"><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
+                    <a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href=""><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
                 </div>              
             </li>
             <br>

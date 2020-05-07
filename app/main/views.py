@@ -143,21 +143,9 @@ def delete_pitch(pitch_id):
     
     db.session.delete(pitch)
     db.session.commit()
-    flash('Pitch Delete!')
+
     return redirect(url_for('main.profile',uname=pitch.user.username))
 
-
-@main.route('/<int:like>',methods=['GET','POST'])
-def upvote(like):
-    pitch=Pitch.query.filter_by(id=like).first()
-    page=request.args.get('page',1,type=int)
-    all_pitch=Pitch.query.order_by(Pitch.posted.desc()).paginate(page=page,per_page=10)
-    if pitch.upvotes:
-        upvote=pitch.upvotes+1
-        db.session.add(upvote)
-        db.session.commit()
-        return redirect(url_for('main.index'))
-    return render_template('index.html',pitches=all_pitch)
 
 @main.route('/profile/user/<string:username>')
 def posted(username):
