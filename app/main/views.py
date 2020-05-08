@@ -8,7 +8,7 @@ from flask_login import login_required,current_user
 from ..models import User,Comment,Pitch
 from .forms import UploadPitch,CommentsForm,UpdateBio
 from .. import db
-from manage import app
+
 
 vote=0
 def Upvote(pitch):
@@ -50,8 +50,8 @@ def save_picture(form_data):
     random_url=secrets.token_hex(6)
     _,file_extention=os.path.splitext(form_data.filename)
     file_url=random_url+file_extention
-    picture_loc=os.path.join(app.root_path+"/static/profile/"+file_url)
-
+    picture_loc=os.path.join("/home/dynamo/Desktop/projects/PYTHON PROJECTS/Pitch-Master/app/static/profile/"+file_url)
+    print(picture_loc)
     sized_image=(400,600)
     cut=Image.open(form_data)
     cut.thumbnail(sized_image)
