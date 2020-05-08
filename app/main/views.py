@@ -8,7 +8,7 @@ from flask_login import login_required,current_user
 from ..models import User,Comment,Pitch
 from .forms import UploadPitch,CommentsForm,UpdateBio
 from .. import db
-from manage import app
+from ...manage import app
 
 vote=0
 def Upvote(pitch):
