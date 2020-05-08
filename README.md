@@ -4,7 +4,8 @@ Developer: Dynamo Denis Mbugua
 
 Email: dmbugua66@gmail.com
 
-To run this site click [here](https://news-breeze.herokuapp.com/)
+To run this site click [here](https://pitch-hunter.herokuapp.com/)
+
 Location: Nairobi, Kenya
 
 ---
@@ -45,6 +46,11 @@ $ sudo apt-get install python3-pip
 sudo easy_install pip
 ```
 - Open your editor and run the cloned repository and install the modules below to run effectivey.
+
+- To install all requirements and extentions needed to run the app install requirements using
+```
+pip install -r requirements.txt
+```
 
 - To run the class test use the following commands in the terminal
 ```
