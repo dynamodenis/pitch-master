@@ -17,7 +17,7 @@
                             <p class="card-text">{{pitch.pitch}}</p>
                             <p class="card-text"><small class="text-muted">Posted On: <span class="badge badge-secondary">{{pitch.posted.strftime('%Y-%m-%d')}}</span><span></span><span></span>Likes:<span class="badge badge-success">{{pitch.upvotes}}</span><span></span>Dislikes:<span class="badeg badge-danger">{{pitch.downvotes}}</span></small></p>
                         </div>
-                        <a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href=""><button class="btn btn-success">Like</button></a></span> <span><a href="{{downvote}}"><button class="btn btn-danger">Dislike</button></a></span></span>
+                        <a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-secondary">Comment</button></a> <span><span><a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-success">Like</button></a></span> <span><a href="{{url_for('main.comment',pname=pitch.id)}}"><button class="btn btn-danger">Dislike</button></a></span></span>
                     </div>              
                 </li>
                 <br>
@@ -41,30 +41,4 @@
     </div>
 
 
-<!-- <div class="container ">
-    <div class="row ">
-        <div class="col-md-6">
-            <ul class="list-group list-group-horizontal-xl icons bg-dark ">
-                <li class="icon-item"><a href="http://instagram.com" target="_blank" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                <li class="icon-item"><a href="http://facebook.com" target="_blank" title="Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
-                <li class="icon-item"><a href="http://twitter.com" target="_blank" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                <li class="icon-item"><a href="http://github.com" target="_blank" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li>
-                <li class="icon-item"><a href="http://linkedin.com" target="_blank" title="Github"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <footer class="page-footer font-small special-color-dark">
-
-                <!-- Copyright -->
-                <!-- <div class="footer-copyright text-center py-3">© 2020 Copyright:
-                    <p>Developed by: Dynamo Denis.</p>
-                    <p>Email: dmbugua66@gmail.com</p>
-                    <p>Location: Nairobi, Kenya.</p>
-                </div>
-                <!-- Copyright -->
-            
-            <!-- </footer>
-        </div>
-    </div>
-</div> --> 
 {% endblock %}

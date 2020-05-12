@@ -8,39 +8,11 @@ from flask_login import login_required,current_user
 from ..models import User,Comment,Pitch
 from .forms import UploadPitch,CommentsForm,UpdateBio
 from .. import db
-
-
-vote=0
-def Upvote(pitch):
-    if pitch:
-        vote=0
-        vote=pitch+1
-        # total_votes=functools.reduce(lambda a,b:a+b, total)
-        # uvotes=Pitch(pitch=pitch+vote)
-        # db.session.add(uvotes)
-        # db.session.commit()
-
-    return vote
-
-
-
-def Downvote(pitch):
-    if pitch:
-        vote=0
-        vote=pitch+1
-        # dvotes=Pitch(pitch=vote)
-        # db.session.add(dvotes)
-        # db.session.commit()
-
-    return vote
+from flask import current_app
 
 
 @main.route('/')
 def index():
-    # upvote=Upvote()
-    # downvote=Downvote()
-    # user=User.query.filter_by(username=current_user.username).first()
-    # pitch=Pitch.query.filter_by(user_id=user.id).first()
     page=request.args.get('page',1,type=int)
     all_pitch=Pitch.query.order_by(Pitch.posted.desc()).paginate(page=page,per_page=10)
     return render_template('index.html',pitches=all_pitch,title='Pitch | Master')
@@ -50,7 +22,8 @@ def save_picture(form_data):
     random_url=secrets.token_hex(6)
     _,file_extention=os.path.splitext(form_data.filename)
     file_url=random_url+file_extention
-    picture_loc=os.path.join("/home/dynamo/Desktop/projects/PYTHON PROJECTS/Pitch-Master/app/static/profile/"+file_url)
+    # picture_loc=os.path.join("/home/dynamo/Desktop/projects/PYTHON PROJECTS/Pitch-Master/app/static/profile/"+file_url)
+    picture_loc=os.path.join( current_app.root_path+"/static/profile/"+file_url)
     print(picture_loc)
     sized_image=(400,600)
     cut=Image.open(form_data)
@@ -104,8 +77,20 @@ def comment(pname):
     image=url_for('static',filename='profile/'+ current_user.profile_pic_path)
     pitch=Pitch.query.filter_by(id=pname).first()
     comment_query=Comment.query.filter_by(pitch_id=pitch.id).all()
-    # upvote=Upvote(pitch.upvotes)
-    # downvote=Downvote(pitch.downvotes)
+    
+    if request.args.get('likes'):
+        pitch.upvotes=pitch.upvotes+int(1)
+        db.session.add(pitch)
+        db.session.commit()
+        return redirect(url_for('main.comment',pname=pname))
+
+    
+    elif    request.args.get('dislike'):
+        pitch.downvotes=pitch.downvotes+int(1)
+        db.session.add(pitch)
+        db.session.commit()
+        return redirect(url_for('main.comment',pname=pname))
+
     if comments.validate_on_submit():
         comment=Comment(comment=comments.comment.data,pitch_id=pitch.id,user_id=current_user.id)
         db.session.add(comment)
@@ -113,6 +98,8 @@ def comment(pname):
         return redirect(url_for('main.comment',pname=pname))
     
     return render_template('pitch.html' ,comment=comments,pitch=pitch,comments=comment_query,title='Pitch Comment',image=image)
+
+
 
 
 @main.route('/<int:pname>/update',methods=['GET','POST'])
